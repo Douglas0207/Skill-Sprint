@@ -16,6 +16,7 @@ const Dashboard = () => {
     overdue: 0
   });
 
+
   useEffect(() => {
     fetchOKRs();
   }, []);
@@ -147,7 +148,7 @@ const Dashboard = () => {
           </div>
         ) : (
           <div className="okrs-grid">
-            {okrs.slice(0, 6).map(okr => (
+              {Array.isArray(okrs) && okrs.slice(0, 6).map(okr => (
               <div key={okr._id} className="okr-card">
                 <div className="okr-header">
                   <h3>{okr.title}</h3>
