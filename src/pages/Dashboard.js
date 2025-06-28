@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
 import './Dashboard.css';
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -23,7 +24,8 @@ const Dashboard = () => {
 
   const fetchOKRs = async () => {
     try {
-      const response = await axios.get('/api/okrs', {
+      const response = await axios.get(`${API_BASE}/api/okrs`, {
+
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
