@@ -149,7 +149,8 @@ const CreateOKR = () => {
         }))
       };
 
-      await axios.post('http://localhost:5050/api/okrs', okrData);
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/okrs`, okrData);
+
 
       navigate('/okrs');
     } catch (error) {
