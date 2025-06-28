@@ -22,25 +22,33 @@ const Dashboard = () => {
 
   const fetchOKRs = async () => {
     try {
-      const response = await axios.get('/api/okrs');
-      const okrData = response.data;
+      const response = await axios.get('/api/okrs', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+  
+      console.log("🔍 Response from backend:", response.data);
+  
+      const okrData = Array.isArray(response.data) ? response.data : [];
+  
       setOkrs(okrData);
-
-      // Calculate stats
+  
+      // Safely calculate stats
       const total = okrData.length;
       const completed = okrData.filter(okr => okr.status === 'completed').length;
       const inProgress = okrData.filter(okr => okr.status === 'active').length;
       const overdue = okrData.filter(okr => {
         return okr.status === 'active' && new Date(okr.dueDate) < new Date();
       }).length;
-
+  
       setStats({ total, completed, inProgress, overdue });
+  
     } catch (error) {
-      console.error('Error fetching OKRs:', error);
-    } finally {
-      setLoading(false);
+      console.error("❌ Error fetching OKRs:", error?.response?.data || error.message);
     }
   };
+  
 
   const getProgressColor = (progress) => {
     if (progress >= 80) return '#28a745';
